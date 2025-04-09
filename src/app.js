@@ -11,19 +11,19 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-while (true) {
-  let result;
+let playing = true;
 
+while (playing) {
   rl.question('Enter a number? ', (inputNum) => {
     if (checkIsValidUserInput(inputNum)) {
-      result = getBullsAndCows(inputNum, randNum);
+      const result = getBullsAndCows(inputNum, randNum);
 
       console.log(result);
+
+      if (result?.bulls === 4) {
+        playing = false;
+        rl.close();
+      }
     }
   });
-
-  if (result?.bulls === 4) {
-    rl.close();
-    break;
-  }
 }
