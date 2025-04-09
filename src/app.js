@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 'use strict';
 import readline from 'node:readline';
 import { generateRandomNumber } from './modules/generateRandomNumber';
@@ -10,10 +11,19 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-rl.question('Enter a number? ', (inputNum) => {
-  if (checkIsValidUserInput(inputNum)) {
-    getBullsAndCows(inputNum, randNum);
-  }
+while (true) {
+  let result;
 
-  rl.close();
-});
+  rl.question('Enter a number? ', (inputNum) => {
+    if (checkIsValidUserInput(inputNum)) {
+      result = getBullsAndCows(inputNum, randNum);
+
+      console.log(result);
+    }
+  });
+
+  if (result?.bulls === 4) {
+    rl.close();
+    break;
+  }
+}
