@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
 'use strict';
-import readline from 'node:readline';
-import { generateRandomNumber } from './modules/generateRandomNumber';
-import { getBullsAndCows } from './modules/getBullsAndCows';
-import { checkIsValidUserInput } from './modules/checkIsValidUserInput';
+
+const readline = require('node:readline');
+const { generateRandomNumber } = require('./modules/generateRandomNumber.js');
+const { getBullsAndCows } = require('./modules/getBullsAndCows.js');
+const { checkIsValidUserInput } = require('./modules/checkIsValidUserInput.js');
 
 const randNum = generateRandomNumber();
 const rl = readline.createInterface({
@@ -11,18 +12,26 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-let playing = true;
+askNumber();
 
-while (playing) {
+function askNumber() {
   rl.question('Enter a number? ', (inputNum) => {
+    let playing = true;
+
     if (checkIsValidUserInput(inputNum)) {
       const result = getBullsAndCows(inputNum, randNum);
 
-      console.log(result);
+      console.log(`bulls: ${result.bulls}, cows: ${result.cows}`);
 
       if (result?.bulls === 4) {
         playing = false;
+
+        console.log(`You guess! The number is ${inputNum}`);
         rl.close();
+      }
+
+      if (playing) {
+        askNumber();
       }
     }
   });
